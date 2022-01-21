@@ -16,6 +16,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SearchScreen from './src/screens/SearchScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 import TripScreen from './src/screens/TripScreen';
 import TryScreen from './src/screens/TryScreen';
@@ -36,13 +37,15 @@ export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
+    //setAuthenticated(authStatus)
+    //console.log('authStatus', authStatus);
     getFonts();
   }, []);
 
-  const getFonts = () => {
-    Font.loadAsync({
+  const getFonts = async () => {
+    await Font.loadAsync({
       space: require('./assets/fonts/spaceage.ttf'),
-      roboto: require('./assets/fonts/Roboto-Light.ttf'),
+      //roboto: require('./assets/fonts/Roboto-Light.ttf'),
     });
   };
 
@@ -50,11 +53,21 @@ export default function App() {
     <Provider store={store}>
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar backgroundColor='black' style='light' />
-        {authenticated === false ? <Auth_off /> : <Auth_on />}
+        <AppWrapper />
       </SafeAreaView>
     </Provider>
   );
 }
+
+const AppWrapper = () => {
+  const authStatus = useSelector((state) => state.auth.authenticated);
+  return(
+    authStatus === false ? <Auth_off /> : <Auth_on />
+
+  )
+  
+  
+};
 
 const Auth_on = () => {
   const HomeStack = () => {
@@ -136,6 +149,11 @@ const Auth_off = () => {
         <RootStack.Screen
           name='LoginScreen'
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='SignUpScreen'
+          component={SignUpScreen}
           options={{ headerShown: false }}
         />
       </RootStack.Navigator>
