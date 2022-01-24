@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get('window');
 import axios from 'axios';
 
 
-export default function TryScreen() {
+export default function TryScreen({ navigation }) {
   useEffect(() => {
     const options = {
       method: 'GET',

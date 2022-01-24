@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 const { width, height } = Dimensions.get('window');
 import { StatusBar } from 'expo-status-bar';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 //Navigation
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -20,6 +26,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 
 import TripScreen from './src/screens/TripScreen';
 import TryScreen from './src/screens/TryScreen';
+import { Ionicons, AntDesign, FontAwesome } from '@expo/vector-icons';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -39,15 +46,11 @@ export default function App() {
   useEffect(() => {
     //setAuthenticated(authStatus)
     //console.log('authStatus', authStatus);
-    getFonts();
-  }, []);
-
-  const getFonts = async () => {
-    await Font.loadAsync({
+    Font.loadAsync({
       space: require('./assets/fonts/spaceage.ttf'),
       //roboto: require('./assets/fonts/Roboto-Light.ttf'),
     });
-  };
+  }, []);
 
   return (
     <Provider store={store}>
@@ -58,18 +61,13 @@ export default function App() {
     </Provider>
   );
 }
-
-const AppWrapper = () => {
+const AppWrapper = ({ navigation }) => {
   const authStatus = useSelector((state) => state.auth.authenticated);
-  return(
-    authStatus === false ? <Auth_off /> : <Auth_on />
-
-  )
-  
-  
+  return <Auth_on />;
+  //return authStatus === false ? <Auth_off /> : <Auth_on />;
 };
 
-const Auth_on = () => {
+const Auth_on = ({ navigation }) => {
   const HomeStack = () => {
     return (
       <RootStack.Navigator>
@@ -92,7 +90,6 @@ const Auth_on = () => {
       </RootStack.Navigator>
     );
   };
-
   const SearchStack = () => {
     return (
       <RootStack.Navigator>
@@ -129,12 +126,94 @@ const Auth_on = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name='HomeScreen' component={HomeStack} />
+      <Tab.Navigator
+        tabBarOptions={{
+          style: { borderTopWidth: 2, borderTopColor: 'black' },
+        }}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            let iconName;
+            let color = focused ? 'black' : 'gray';
+            if (route.name === 'HomeScreen') {
+              iconName = 'ios-home';
 
+              return <Ionicons name={iconName} size={23} color={color} />;
+            } else if (route.name === 'TripScreen') {
+              iconName = 'star';
+
+              return <AntDesign name={iconName} size={24} color={color} />;
+            } else if (route.name === 'FavoritesScreen') {
+              iconName = 'md-heart';
+
+              return <Ionicons name={iconName} size={25} color={color} />;
+            } else if (route.name === 'ProfileScreen') {
+              iconName = 'user';
+
+              return <FontAwesome name={iconName} size={24} color={color} />;
+            } else if (route.name === 'SearchScreen') {
+              return (
+                <TouchableOpacity
+                  //onPress={() => navigation.navigate('SearchScreen')}
+                  activeOpacity={0.7}
+                  style={{
+                    height: 100,
+                    width: 100,
+                    borderRadius: 50,
+                    top: -22,
+                    borderWidth: 3,
+                    borderColor: 'black',
+                    backgroundColor: 'white',
+
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <View
+                    style={{
+                      height: 80,
+                      width: 80,
+                      borderRadius: 40,
+
+                      backgroundColor: 'black',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Ionicons name='ios-search-sharp' size={33} color='white' />
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 12,
+                        fontWeight: 'bold',
+                      }}>
+                      Search
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            }
+          },
+
+          tabBarLabel: ({ focused }) => {
+            let titleStyle = {
+              fontSize: 12,
+              fontWeight: focused ? 'bold' : '500',
+              color: focused ? 'black' : 'gray',
+            };
+            if (route.name === 'HomeScreen') {
+              return <Text style={titleStyle}>Home</Text>;
+            } else if (route.name === 'TripScreen') {
+              return <Text style={titleStyle}>Trip</Text>;
+            } else if (route.name === 'SearchScreen') {
+              return <Text>{''}</Text>;
+            } else if (route.name === 'FavoritesScreen') {
+              return <Text style={titleStyle}>Favorites</Text>;
+            } else if (route.name === 'ProfileScreen') {
+              return <Text style={titleStyle}>Profile</Text>;
+            }
+          },
+        })}>
+        <Tab.Screen name='HomeScreen' component={HomeStack} />
         <Tab.Screen name='TripScreen' component={TripStack} />
         <Tab.Screen name='SearchScreen' component={SearchStack} />
-
         <Tab.Screen name='FavoritesScreen' component={FavoritesStack} />
         <Tab.Screen name='ProfileScreen' component={ProfileStack} />
       </Tab.Navigator>
@@ -142,7 +221,7 @@ const Auth_on = () => {
   );
 };
 
-const Auth_off = () => {
+const Auth_off = ({ navigation }) => {
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName='LoginScreen'>

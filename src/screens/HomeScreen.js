@@ -7,8 +7,7 @@ const { width, height } = Dimensions.get('window');
 import * as actionTypes from '../redux/actions/actionTypes';
 import { useDispatch, useSelector } from 'react-redux';
 
-
-export default function HomeScreen() {
+const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const authStatus = useSelector((state) => state.auth.authenticated);
@@ -23,10 +22,14 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Text style={styles.text}>HomeScreeeeen</Text>
 
-      <Text onPress={out} style={{fontSize:25, color:'black'}}>Out</Text>
+      <Text onPress={out} style={{ fontSize: 25, color: 'black' }}>
+        Out
+      </Text>
     </View>
   );
-}
+};
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {

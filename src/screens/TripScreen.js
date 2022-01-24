@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-export default function TripScreen() {
+export default function TripScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>TripScreen</Text>

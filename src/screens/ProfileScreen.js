@@ -3,7 +3,7 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>ProfileScreen</Text>

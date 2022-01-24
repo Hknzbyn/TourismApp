@@ -3,7 +3,8 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-export default function FavoritesScreen() {
+
+export default function FavoritesScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>FavoritesScreen</Text>
