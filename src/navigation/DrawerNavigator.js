@@ -17,7 +17,7 @@ const Drawer = createDrawerNavigator();
 //ToDo add Drawer screens
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator >
       <Drawer.Screen name='Home' component={BottomTabNavigator} />
       <Drawer.Screen name='Contact' component={TryStack} />
     </Drawer.Navigator>

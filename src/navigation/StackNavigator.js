@@ -1,3 +1,5 @@
+import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
+
 import { createStackNavigator } from '@react-navigation/stack';
 
 //Screens
@@ -15,6 +17,14 @@ import SignUpScreen from '../screens/SignUpScreen';
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
+  function LogoTitle() {
+    return (
+      <Image
+        style={{ width: 50, height: 50 }}
+        source={require('../../assets/icon.png')}
+      />
+    );
+  }
   return (
     <Stack.Navigator>
       <Stack.Screen

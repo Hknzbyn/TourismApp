@@ -6,16 +6,33 @@ import BottomSheetView from '../components/BottomSheetView';
 
 export default function TripScreen({ navigation }) {
   const [bswStatus, setBswStatus] = useState(false);
+  useEffect(() => {}, [bswStatus]);
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{bswStatus ? 'true' : 'false' }</Text>
+      <Text style={styles.text}>{bswStatus ? 'true' : 'false'}</Text>
       <Text> </Text>
-      <Text onPress={() => setBswStatus(!bswStatus)} style={styles.text}>
+      <Text onPress={() => setBswStatus(true)} style={styles.text}>
         Open bsw
       </Text>
+      <Text>{''}</Text>
 
-      <BottomSheetView status={bswStatus} />
+      <Text onPress={() => setBswStatus(false)} style={styles.text}>
+        Close bsw
+      </Text>
+
+      <BottomSheetView
+        BswHeight={600}
+        status={bswStatus}
+        backgroundColor={'orange'}
+        onClose={() => setBswStatus(false)}>
+
+        <View style={{}}>
+          <Text>BBB</Text>
+        </View>
+
+      </BottomSheetView>
     </View>
   );
 }

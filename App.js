@@ -38,10 +38,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import * as Font from 'expo-font';
 
-// React Navigation Stacks
-const RootStack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
 
 export default function App() {
   useEffect(() => {

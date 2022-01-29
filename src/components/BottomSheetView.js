@@ -4,32 +4,29 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 export default function BottomSheetView(props) {
+  const BswHeight = props.BswHeight || 500;
+  const bgColor = props.backgroundColor || 'gray'
   // bsw  - BottomSheetView
-  const status = props.status;
+  const status = props.status || false;
   //const [bswStatus, setBswStatus] = useState(false);
   const sheetRef = React.useRef(null);
 
   useEffect(() => {
     if (status === true) {
       sheetRef.current.snapTo(0);
-
-      return ()=> status===false
+    } else {
     }
   }, [status]);
-  const openBsw = () => {
-      
-  };
+  const openBsw = () => {};
 
   const renderBottomSheetView = () => (
     <View
       style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'gray',
-        padding: 20,
-        height: 540,
+        backgroundColor: bgColor,
+        padding: 10,
+        height: BswHeight,
       }}>
-      <Text>Swipe down to close</Text>
+      {props.children}
     </View>
   );
 
@@ -37,9 +34,11 @@ export default function BottomSheetView(props) {
     <>
       <BottomSheet
         ref={sheetRef}
-        snapPoints={[550, 50, 0]}
+        snapPoints={[BswHeight, 50, 0]}
         borderRadius={10}
         renderContent={renderBottomSheetView}
+        onCloseStart={props.onClose}
+        enabledBottomInitialAnimation={false}
       />
     </>
   );

@@ -5,13 +5,53 @@ const { width, height } = Dimensions.get('window');
 
 export default function SearchScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>SearchScreen</Text>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#289d75',
+      }}>
+      <View
+        style={{
+          height: 230,
+          width: 230,
+          borderRadius: 180,
+          backgroundColor: '#3bb77b',
+          position: 'absolute',
+          top: -150,
+          left: -20,
+          transform: [{ scaleX: 2 }],
+        }}
+      />
+
+      <View
+        style={{
+          height: 400,
+          width: 220,
+          borderRadius: 175,
+          backgroundColor: '#38e892',
+          position: 'absolute',
+          top: -150,
+          left: -20,
+          transform: [{ scaleX: 5 }],
+        }}
+      />
+
+      <Text
+        style={{
+          position: 'absolute',
+          top: 30,
+          left: 30,
+          fontSize: 18,
+          fontWeight: 'bold',
+          color: 'white',
+        }}>
+        Register
+      </Text>
     </View>
   );
 }
-
-const aaa = () => {};
 
 const styles = StyleSheet.create({
   container: {

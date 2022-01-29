@@ -1,10 +1,19 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+  Image,
+} from 'react-native';
 const { width, height } = Dimensions.get('window');
 
 //redux
 import * as actionTypes from '../redux/actions/actionTypes';
+import { BlurView } from 'expo-blur';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 const HomeScreen = ({ navigation }) => {
@@ -19,12 +28,40 @@ const HomeScreen = ({ navigation }) => {
     });
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>HomeScreeeeen</Text>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: 'purple',
+      }}>
+      <View
+        style={{
+          height: 455,
+          width: 140,
+          rotation: -14,
+          borderRadius: 25,
+          backgroundColor: 'gray',
+          position: 'absolute',
+          top: -125,
+          left: 150,
+          transform: [{ scaleX: 4 }],
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Image
+          source={require('../../assets/santorini.jpg')}
+          resizeMode='center'
+          style={{ height: 455 ,rotation: 14,}}
+        />
+        {/* <ImageBackground
+        source={require('../../assets/santorini.jpg')}
+        resizeMode={'contain'}
+        >
 
-      <Text onPress={out} style={{ fontSize: 25, color: 'black' }}>
-        Out
-      </Text>
+
+        </ImageBackground> */}
+      </View>
     </View>
   );
 };
@@ -35,8 +72,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    height: height,
+    width: width,
+    paddingBottom: 50,
   },
   text: {
     fontSize: 18,
@@ -45,5 +85,12 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
     color: 'black',
+  },
+  bgImage: {
+    flex: 1,
+    height: height,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width,
   },
 });
