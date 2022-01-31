@@ -31,37 +31,15 @@ const HomeScreen = ({ navigation }) => {
     <View
       style={{
         flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: 'purple',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
       }}>
-      <View
-        style={{
-          height: 455,
-          width: 140,
-          rotation: -14,
-          borderRadius: 25,
-          backgroundColor: 'gray',
-          position: 'absolute',
-          top: -125,
-          left: 150,
-          transform: [{ scaleX: 4 }],
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Image
-          source={require('../../assets/santorini.jpg')}
-          resizeMode='center'
-          style={{ height: 455 ,rotation: 14,}}
-        />
-        {/* <ImageBackground
+      {/* <ImageBackground
         source={require('../../assets/santorini.jpg')}
-        resizeMode={'contain'}
+        resizeMode='contain'
+        style={styles.bgImage}
         >
-
-
         </ImageBackground> */}
-      </View>
     </View>
   );
 };

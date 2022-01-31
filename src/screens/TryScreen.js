@@ -5,20 +5,11 @@ const { width, height } = Dimensions.get('window');
 
 import axios from 'axios';
 
-
 export default function TryScreen({ navigation }) {
   useEffect(() => {
     const options = {
       method: 'GET',
-      url: 'https://hotels4.p.rapidapi.com/properties/get-details',
-      params: {
-        id: '424023',
-        checkIn: '2020-01-08',
-        checkOut: '2020-01-15',
-        adults1: '1',
-        currency: 'TRY',
-        locale: 'tr_TR',
-      },
+      url: 'https://hotels4.p.rapidapi.com/get-meta-data',
       headers: {
         'x-rapidapi-host': 'hotels4.p.rapidapi.com',
         'x-rapidapi-key': '6dbbb471aamshcf7eebe43763518p140f99jsnc4368ee9afea',
