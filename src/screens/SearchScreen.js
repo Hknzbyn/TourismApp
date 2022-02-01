@@ -33,7 +33,7 @@ export default function SearchScreen({ navigation }) {
       params: { query: location, locale: 'tr_TR' },
       headers: {
         'x-rapidapi-host': 'hotels4.p.rapidapi.com',
-        'x-rapidapi-key': 'ffc6c2260dmsh78d75aef55c3705p1df24bjsn81be1192e33c'
+        'x-rapidapi-key': 'ffc6c2260dmsh78d75aef55c3705p1df24bjsn81be1192e33c',
       },
     };
 
@@ -146,5 +146,76 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //backgroundColor:'red'
+  },
+  card: {
+    width: width * 0.9,
+    height: height * 0.25,
+    backgroundColor: '#333333',
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
+  cardHeader: {
+    width: width * 0.9,
+    height: height * 0.1,
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardHeaderText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontStyle: 'normal',
+    lineHeight: 20,
+    textAlign: 'center',
+    color: 'black', //'#2e2e2e',
+  },
+  cardBody: {
+    width: width * 0.9,
+    height: height * 0.1,
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardBodyText: {
+    fontSize: 15,
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    lineHeight: 15,
+    textAlign: 'center',
+    color: 'black', //'#2e2e2e',
   },
 });

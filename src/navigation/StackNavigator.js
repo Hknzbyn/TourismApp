@@ -8,7 +8,9 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SearchScreen from '../screens/SearchScreen';
 import TripScreen from '../screens/TripScreen';
+import AboutScreen from '../screens/AboutScreen';
 import TryScreen from '../screens/TryScreen';
+import ContactScreen from '../screens/ContactScreen';
 
 //notAuth screens
 import LoginScreen from '../screens/LoginScreen';
@@ -17,14 +19,6 @@ import SignUpScreen from '../screens/SignUpScreen';
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
-  function LogoTitle() {
-    return (
-      <Image
-        style={{ width: 50, height: 50 }}
-        source={require('../../assets/icon.png')}
-      />
-    );
-  }
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -91,6 +85,28 @@ const TryStack = () => {
   );
 };
 
+const DrawerStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='AboutScreen'
+        component={AboutScreen}
+        options={{ headerShown: false }}
+      />
+        <Stack.Screen
+        name='TryScreen'
+        component={TryScreen}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name='ContactScreen'
+        component={ContactScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 //User_notAuth screens
 const AuthOffStack = () => {
   return (
@@ -117,4 +133,5 @@ export {
   ProfileStack,
   AuthOffStack,
   TryStack,
+  DrawerStack,
 };
