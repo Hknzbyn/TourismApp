@@ -15,6 +15,7 @@ import * as actionTypes from '../redux/actions/actionTypes';
 import { BlurView } from 'expo-blur';
 
 import { useDispatch, useSelector } from 'react-redux';
+import BgMaskedImage from '../components/BgMaskedImage';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -29,17 +30,9 @@ const HomeScreen = ({ navigation }) => {
   };
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-      }}>
-      {/* <ImageBackground
-        source={require('../../assets/santorini.jpg')}
-        resizeMode='contain'
-        style={styles.bgImage}
-        >
-        </ImageBackground> */}
+      style={styles.container}>
+        <BgMaskedImage />
+      <Text>HomeScreen</Text>
     </View>
   );
 };

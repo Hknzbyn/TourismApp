@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     height: height * 0.07,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: 'rgba(17, 17, 17, 0.1)',
+    backgroundColor: 'rgba(17, 17, 17, 0.5)',
     position: 'relative',
   },
   iconArea: {

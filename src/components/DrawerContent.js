@@ -95,7 +95,7 @@ export default function DrawerContent(props) {
           pageName={'TryScreen'}
           icon={TryIcon}
           onPress={() => {
-            props.navigation.navigate('TryScreen');
+            props.navigation.navigate('Try');
           }}
         />
 

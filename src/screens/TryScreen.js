@@ -1,34 +1,25 @@
-import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
+import React, { useState ,useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  TextInput,
+} from 'react-native';
+import SearchBar from '../components/SearchBar';
 
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-const { width, height } = Dimensions.get('window');
-
-import axios from 'axios';
 
 export default function TryScreen({ navigation }) {
   useEffect(() => {
-    const options = {
-      method: 'GET',
-      url: 'https://hotels4.p.rapidapi.com/get-meta-data',
-      headers: {
-        'x-rapidapi-host': 'hotels4.p.rapidapi.com',
-        'x-rapidapi-key': '6dbbb471aamshcf7eebe43763518p140f99jsnc4368ee9afea',
-      },
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+ 
   }, []);
 
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>TryScreen</Text>
+      <SearchBar/>
+
     </View>
   );
 }
@@ -36,7 +27,7 @@ export default function TryScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'gray',
     alignItems: 'center',
     justifyContent: 'center',
   },

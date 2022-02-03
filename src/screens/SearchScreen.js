@@ -10,9 +10,10 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
+
 const { width, height } = Dimensions.get('window');
 import { Ionicons, Fontisto } from '@expo/vector-icons';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import BgMaskedImage from '../components/BgMaskedImage';
 import Header from '../components/Header';
 import {
@@ -21,44 +22,61 @@ import {
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 
+import Autocomplete from 'react-native-autocomplete-input';
+
 export default function SearchScreen({ navigation }) {
+  const dispatch = useDispatch();
+
+  const tours = useSelector((state) => state.data.data);
+
   const [destinations, setDestinations] = useState([]);
   const [location, setLocation] = useState('');
 
   useEffect(() => {
-    console.log('loc. ', location);
-    const options = {
-      method: 'GET',
-      url: 'https://hotels4.p.rapidapi.com/locations/search',
-      params: { query: location, locale: 'tr_TR' },
-      headers: {
-        'x-rapidapi-host': 'hotels4.p.rapidapi.com',
-        'x-rapidapi-key': 'ffc6c2260dmsh78d75aef55c3705p1df24bjsn81be1192e33c',
-      },
-    };
-
-    axios
-      .request(options)
-      .then(function (response) {
-        setDestinations(response.data.suggestions[1].entities);
-        console.log(response.data.suggestions[1].entities);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    console.log('location', location);
+    const result = FindUniques(tours, 'country');
+    setDestinations(result);
   }, [location]);
+
+  const FindUniques = (arr, key) => {
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
+  };
 
   const renderCardItem = ({ item, key }) => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: 150,
-          width: width,
-        }}>
-        <Text style={{ fontSize: 25, color: 'black' }}>{item.name}</Text>
-      </View>
+      <ImageBackground
+        borderRadius={20}
+        resizeMode='cover'
+        source={{ uri: item.tourImage }}
+        style={styles.card}>
+        <View style={styles.card}>
+          <View style={{ marginVertical: 5 }}>
+            <Text
+              style={{
+                fontSize: 22,
+                color: 'white',
+                textAlign: 'center',
+                fontWeight: 'bold',
+              }}>
+              {item.country}
+            </Text>
+          </View>
+          <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
+            starting budget
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'white',
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}>
+            <Text>$</Text>
+            {item.price}
+            <Text style={{ fontWeight: '600' }}>/person</Text>
+          </Text>
+        </View>
+      </ImageBackground>
     );
   };
   return (
@@ -71,6 +89,7 @@ export default function SearchScreen({ navigation }) {
       />
       <View style={styles.searchArea}>
         <View activeOpacity={0.9} style={styles.search}>
+
           <TextInput
             style={styles.TextInput}
             placeholder='Find your Destinations'
@@ -87,9 +106,11 @@ export default function SearchScreen({ navigation }) {
 
       <View style={styles.destinationsArea}>
         <FlatList
+          numColumns={2}
           data={destinations}
-          keyExtractor={(item) => item.destinationId}
+          keyExtractor={(item) => item.tourId}
           renderItem={renderCardItem}
+          style={{ paddingHorizontal: 10 }}
         />
       </View>
     </View>
@@ -145,77 +166,19 @@ const styles = StyleSheet.create({
     height: height * 0.75,
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor:'red'
+    flexDirection: 'row',
+    //backgroundColor: 'red',
   },
   card: {
-    width: width * 0.9,
-    height: height * 0.25,
-    backgroundColor: '#333333',
-    borderRadius: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-
-  cardHeader: {
-    width: width * 0.9,
-    height: height * 0.1,
+    width: width * 0.4,
+    height: width * 0.4,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'gray',
-    borderRadius: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  cardHeaderText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    lineHeight: 20,
-    textAlign: 'center',
-    color: 'black', //'#2e2e2e',
-  },
-  cardBody: {
-    width: width * 0.9,
-    height: height * 0.1,
-    backgroundColor: 'gray',
-    borderRadius: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  cardBodyText: {
-    fontSize: 15,
-    fontWeight: 'normal',
-    fontStyle: 'normal',
-    lineHeight: 15,
-    textAlign: 'center',
-    color: 'black', //'#2e2e2e',
+    borderRadius: 20,
+    marginHorizontal: 15,
+    marginVertical: 20,
+    //elevation: 0.1,
+    backgroundColor: 'rgba(17,17,17,0.5)',
   },
 });

@@ -13,23 +13,17 @@ const { width, height } = Dimensions.get('window');
 
 export default function BgMaskedImage() {
   return (
-    <ImageBackground
-      style={{
-        flex: 1,
-        position: 'absolute',
-        //backgroundColor: 'black', // "Edge" background
-        maxHeight: 400 - 50,
-      }}>
+  
       <MaskedView
-        style={{}}
+        style={{  flex: 1,position: 'absolute'}}
         maskElement={
           <View
             style={{
+              
               height: 400,
               width: 250,
               borderRadius: 125,
-              backgroundColor: 'rgba(45, 48, 44, 0.7)',
-              position: 'absolute',
+              backgroundColor: 'rgba(17, 17, 17, 0.6)',
               top: -50,
               transform: [{ scaleX: 3 }],
             }}></View>
@@ -40,6 +34,6 @@ export default function BgMaskedImage() {
           source={require('../../assets/santorini.jpg')}
         />
       </MaskedView>
-    </ImageBackground>
+ 
   );
 }
