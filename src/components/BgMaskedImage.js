@@ -19,18 +19,17 @@ export default function BgMaskedImage() {
         maskElement={
           <View
             style={{
-              
-              height: 400,
-              width: 250,
-              borderRadius: 125,
-              backgroundColor: 'rgba(17, 17, 17, 0.6)',
-              top: -50,
+              height: 800,
+              width: 500,
+              borderRadius: 350,
+              backgroundColor: 'black',
+              top: -300,
               transform: [{ scaleX: 3 }],
             }}></View>
         }>
         <Image
           resizeMode='cover'
-          style={{ height: 400, width: width, top: -50 }}
+          style={{ height: 800, width: 500, top: -50, left: 25 }}
           source={require('../../assets/santorini.jpg')}
         />
       </MaskedView>

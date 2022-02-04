@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Header(props) {
+  const leftIconStatus = props.leftIcon;
   const titleStyle = props.titleStyle || {
     color: 'white',
     fontWeight: 'bold',
@@ -14,10 +15,10 @@ export default function Header(props) {
   return (
     <View style={styles.header_container}>
       <TouchableOpacity
-        onPress={props.backOnPress}
+        onPress={props.leftIconOnPress}
         activeOpacity={0.7}
         style={styles.iconArea}>
-        <Ionicons name='ios-chevron-back-sharp' size={25} color='white' />
+        {props.leftIcon}
       </TouchableOpacity>
       <View style={styles.titleArea}>
         <Text style={titleStyle}>{props.Title}</Text>
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     height: height * 0.07,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: 'rgba(17, 17, 17, 0.5)',
+    //backgroundColor: 'rgba(17, 17, 17, 0.5)',
     position: 'relative',
   },
   iconArea: {

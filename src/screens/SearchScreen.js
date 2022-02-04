@@ -16,98 +16,128 @@ import { Ionicons, Fontisto } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import BgMaskedImage from '../components/BgMaskedImage';
 import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
 import {
   ScrollView,
   TextInput,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 
-import Autocomplete from 'react-native-autocomplete-input';
-
 export default function SearchScreen({ navigation }) {
   const dispatch = useDispatch();
-
   const tours = useSelector((state) => state.data.data);
-
   const [destinations, setDestinations] = useState([]);
   const [location, setLocation] = useState('');
 
-  useEffect(() => {
-    console.log('location', location);
-    const result = FindUniques(tours, 'country');
-    setDestinations(result);
-  }, [location]);
+  const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
 
-  const FindUniques = (arr, key) => {
+  useEffect(() => {
+    const result = findUniques(tours, 'country');
+    setFilteredDataSource(result);
+    setMasterDataSource(result);
+    console.log('search_empty', search);
+  }, []);
+
+  const findUniques = (arr, key) => {
     return [...new Map(arr.map((item) => [item[key], item])).values()];
+  };
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.country
+          ? item.country.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+      console.log('search', search);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+      console.log('search', search);
+    }
   };
 
   const renderCardItem = ({ item, key }) => {
     return (
-      <ImageBackground
-        borderRadius={20}
-        resizeMode='cover'
-        source={{ uri: item.tourImage }}
-        style={styles.card}>
-        <View style={styles.card}>
-          <View style={{ marginVertical: 5 }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <ImageBackground
+          borderRadius={20}
+          resizeMode='cover'
+          source={{ uri: item.tourImage }}
+          style={styles.card}>
+          <View style={styles.card}>
+            <View style={{ marginVertical: 5 }}>
+              <Text
+                style={{
+                  fontSize: 22,
+                  color: 'white',
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                }}>
+                {item.country}
+              </Text>
+            </View>
+            <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
+              starting budget
+            </Text>
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 18,
                 color: 'white',
                 textAlign: 'center',
                 fontWeight: 'bold',
               }}>
-              {item.country}
+              <Text>$</Text>
+              {item.price}
+              <Text style={{ fontWeight: '600' }}>/person</Text>
             </Text>
           </View>
-          <Text style={{ fontSize: 15, color: 'white', textAlign: 'center' }}>
-            starting budget
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              color: 'white',
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}>
-            <Text>$</Text>
-            {item.price}
-            <Text style={{ fontWeight: '600' }}>/person</Text>
-          </Text>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </View>
     );
   };
   return (
     <View style={styles.container}>
       <BgMaskedImage />
       <Header
-        titleStyle={{ fontWeight: '700', fontSize: 18, color: 'white' }}
+        titleStyle={{
+          fontWeight: 'bold',
+          fontSize: 16,
+          color: 'white',
+          //fontFamily: 'space',
+        }}
         Title={'Destinations'}
-        backOnPress={() => navigation.goBack()}
+        leftIconOnPress={() => navigation.goBack()}
+        leftIcon={
+          <Ionicons name='ios-chevron-back-sharp' size={25} color='white' />
+        }
       />
-      <View style={styles.searchArea}>
-        <View activeOpacity={0.9} style={styles.search}>
 
-          <TextInput
-            style={styles.TextInput}
-            placeholder='Find your Destinations'
-            placeholderTextColor='rgba(45, 48, 44, 0.4)'
-            autoCapitalize={'none'}
-            value={location}
-            onChangeText={(text) => setLocation(text)}
-          />
-          <View style={{ paddingRight: 20 }}>
-            <Fontisto name='search' size={22} color='rgba(45, 48, 44, 0.4)' />
-          </View>
-        </View>
+      <View style={styles.searchArea}>
+        <SearchBar
+          placeholder='Find your Destinations'
+          onChangeText={(text) => searchFilterFunction(text)}
+          value={search}
+          cleanVal={() => setSearch('')}
+        />
       </View>
 
       <View style={styles.destinationsArea}>
         <FlatList
           numColumns={2}
-          data={destinations}
+          data={filteredDataSource}
           keyExtractor={(item) => item.tourId}
           renderItem={renderCardItem}
           style={{ paddingHorizontal: 10 }}
@@ -166,12 +196,24 @@ const styles = StyleSheet.create({
     height: height * 0.75,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
+    //flexDirection: 'row',
     //backgroundColor: 'red',
   },
   card: {
-    width: width * 0.4,
-    height: width * 0.4,
+    width: width * 0.45,
+    height: width * 0.45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'gray',
+    borderRadius: 20,
+    marginHorizontal: 5,
+    marginVertical: 15,
+    //elevation: 0.1,
+    backgroundColor: 'rgba(17,17,17,0.5)',
+  },
+  resultCard: {
+    width: width * 0.8,
+    height: width * 0.8,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'gray',
