@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   destinationsArea: {
     width: width,
-    height: height * 0.75,
+    height: height ,
     justifyContent: 'center',
     alignItems: 'center',
     //flexDirection: 'row',

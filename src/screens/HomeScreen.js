@@ -9,21 +9,37 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
+
+import Animated, {
+  FadeInUp,
+  Easing,
+  Layout,
+  Transition,
+  ZoomIn,
+  ZoomOut,
+  FadeInDown,
+} from 'react-native-reanimated';
+
 const { width, height } = Dimensions.get('window');
 import { Ionicons } from '@expo/vector-icons';
 //redux
 import * as actionTypes from '../redux/actions/actionTypes';
 import { BlurView } from 'expo-blur';
 
+import firebase from '../../firebase';
+
 import { useDispatch, useSelector } from 'react-redux';
 import BgMaskedImage from '../components/BgMaskedImage';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import { FlatList } from 'react-native-gesture-handler';
+import { set } from 'react-native-reanimated';
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [scrollEnd, setScrollEnd] = useState(false);
   const [tourTheme, setTourTheme] = useState([]);
   const [trendDestinations, setTrendDestinations] = useState([]);
   const [discountedDestinations, setDiscountedDestinations] = useState([]);
@@ -41,6 +57,7 @@ const HomeScreen = ({ navigation }) => {
 
     const discountedResult = findDiscounted(tours);
     setDiscountedDestinations(discountedResult);
+
   }, []);
 
   const findThemes = (arr, key) => {
@@ -139,7 +156,6 @@ const HomeScreen = ({ navigation }) => {
                 fontSize: 18,
                 flexShrink: 1,
                 fontWeight: 'bold',
-
               }}>
               <Text> $</Text>
               {item.price}/person
@@ -164,7 +180,7 @@ const HomeScreen = ({ navigation }) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              alignItems:'center',
+              alignItems: 'center',
               width: 240,
               paddingHorizontal: 5,
             }}>
@@ -174,7 +190,7 @@ const HomeScreen = ({ navigation }) => {
               {item.country}
             </Text>
             <Text style={styles.discountedDestinationCardText}>
-              last {Math.floor(Math.random() * 23) + 1 } hours
+              last {Math.floor(Math.random() * 23) + 1} hours
             </Text>
           </View>
 
@@ -182,20 +198,18 @@ const HomeScreen = ({ navigation }) => {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              alignItems:'center',
+              alignItems: 'center',
               width: 240,
               paddingHorizontal: 5,
-
             }}>
             <Text
               style={{
-                textDecorationLine: 'line-through', 
+                textDecorationLine: 'line-through',
                 textDecorationStyle: 'solid',
                 color: 'rgba(207, 0, 15, 1)',
                 fontSize: 18,
                 flexShrink: 1,
                 fontWeight: 'bold',
-
               }}>
               <Text> $</Text>
               {item.price}
@@ -204,7 +218,6 @@ const HomeScreen = ({ navigation }) => {
             <Text
               numberOfLines={1}
               style={{
-                
                 color: 'rgba(0, 230, 64, 1)',
                 fontSize: 18,
                 fontWeight: 'bold',
@@ -212,12 +225,26 @@ const HomeScreen = ({ navigation }) => {
                 flexShrink: 1,
               }}>
               <Text> $</Text>
-              {(item.price*90/100)} /person
+              {(item.price * 90) / 100} /person
             </Text>
           </View>
         </View>
       </TouchableOpacity>
     );
+  };
+
+  const handleScroll = (event) => {
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+
+    //console.log('first', scrollPosition);
+
+    if (scrollPosition > 210) {
+      setScrollEnd(true); //True__white
+    }
+
+    if (scrollPosition < 210) {
+      setScrollEnd(false);
+    }
   };
 
   return (
@@ -242,7 +269,7 @@ const HomeScreen = ({ navigation }) => {
         />
       </View>
 
-      <ScrollView style={styles.scrollArea}>
+      <ScrollView onScroll={handleScroll} style={styles.scrollArea}>
         <View style={styles.tripThemeArea}>
           <AreaTitle firstLine='TRIP' secondLine='THEMES' whiteOrNot={true} />
 
@@ -269,7 +296,7 @@ const HomeScreen = ({ navigation }) => {
             renderItem={renderTrendDestinations}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            style={{ paddingLeft: 10 }}
+            style={{ paddingHorizontal: 10 }}
           />
         </View>
 
@@ -277,7 +304,7 @@ const HomeScreen = ({ navigation }) => {
           <AreaTitle
             firstLine={'SPECIAL'}
             secondLine={'OFFERS'}
-            whiteOrNot={false}
+            whiteOrNot={scrollEnd ? true : false}
           />
           <FlatList
             data={discountedDestinations}
@@ -285,7 +312,7 @@ const HomeScreen = ({ navigation }) => {
             renderItem={renderDiscountedDestinations}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            style={{ paddingLeft: 10 }}
+            style={{ paddingLeft: 10, marginRight: 10 }}
           />
         </View>
       </ScrollView>
@@ -303,7 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     //height: height,
     width: width,
-    paddingBottom: 50,
+    //paddingBottom: 50,
   },
   text: {
     fontSize: 18,
@@ -329,9 +356,9 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red',
   },
   scrollArea: {
-    flex: 1,
+    //flex: 1,
     width: width,
-    height: 500,
+    height: height,
 
     //backgroundColor: 'purple',
   },
@@ -346,12 +373,13 @@ const styles = StyleSheet.create({
     height: height * 0.4,
     width: width,
     justifyContent: 'space-between',
-
+    
     //backgroundColor: 'blue',
   },
   offersArea: {
-    height: height * 0.4,
+    height: height * 0.45,
     width: width,
+    paddingBottom: height * 0.02,
     //backgroundColor: 'red',
   },
   titleFirst_white: {
@@ -380,7 +408,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
+    //marginRight: 10,
     //backgroundColor: 'yellow',
   },
   themeCardImageArea: {
@@ -412,7 +440,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     elevation: 5,
-    marginRight: 10,
+    marginRight: 20,
     marginBottom: 15,
     position: 'relative',
     backgroundColor: 'white',
@@ -463,7 +491,7 @@ const styles = StyleSheet.create({
     height: 175,
     width: 250,
     borderRadius: 15,
-    backgroundColor: 'red',
+    //backgroundColor: 'red',
   },
   discountedDestinationCardTextArea: {
     width: 245,
@@ -486,6 +514,5 @@ const styles = StyleSheet.create({
     color: 'rgba(207, 0, 15, 1)',
     fontSize: 16,
     fontWeight: 'bold',
-
   },
 });

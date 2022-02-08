@@ -77,12 +77,12 @@ const BottomTabNavigator = () => {
                       height: 100,
                       width: 100,
                       borderRadius: 50,
-                      top: -25,
+                      top: -50,
                       borderWidth: 3,
                       borderColor: 'black',
                       backgroundColor: 'white',
 
-                      //position: 'relative',
+                      position: 'absolute',
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>

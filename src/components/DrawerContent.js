@@ -14,11 +14,19 @@ import {
   ProfileStack,
   TryStack,
 } from '../navigation/StackNavigator';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionTypes from '../redux/actions/actionTypes';
+
+
 import { Ionicons, Fontisto, MaterialCommunityIcons } from '@expo/vector-icons';
 import {} from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const { width, height } = Dimensions.get('window');
 export default function DrawerContent(props) {
+  const authStatus = useSelector((state) => state.auth.authenticated);
+  const dispatch = useDispatch();
+
   const HomeIcon = <Ionicons name='ios-home' size={25} color='black' />;
   const DestinationIcon = <Fontisto name='earth' size={24} color='black' />;
   const ImagesIcon = <Ionicons name='images' size={25} color='black' />;
@@ -53,7 +61,17 @@ export default function DrawerContent(props) {
     );
   };
 
+  const out = () => {
+    dispatch({
+      type: actionTypes.SET_UNAUTHENTICATED,
+      //payload: (authStatus = true),
+    });
+  };
+
+
   return (
+    <SafeAreaView style={{flex:1}}>
+
     <View style={styles.container}>
       <ImageBackground
         source={require('../../assets/santorini.jpg')}
@@ -105,7 +123,7 @@ export default function DrawerContent(props) {
             height: 0.5,
             borderWidth: 0.2,
             borderColor: 'black',
-            marginTop: 100,
+            marginTop: 50,
           }}
         />
         <Text
@@ -120,9 +138,11 @@ export default function DrawerContent(props) {
         <GoPage pageName={'Dashboard'} icon={HomeIcon} />
 
         <GoPage pageName={'Settings'} icon={SettingIcon} />
-        <GoPage pageName={'Logout'} icon={LogoutIcon} />
+        <GoPage pageName={'Logout'} icon={LogoutIcon} onPress={()=>out()} />
       </View>
     </View>
+    </SafeAreaView>
+
   );
 }
 
