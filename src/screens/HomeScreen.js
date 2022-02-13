@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  FlatList
 } from 'react-native';
 
 import Animated, {
@@ -34,8 +35,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BgMaskedImage from '../components/BgMaskedImage';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
-import { FlatList } from 'react-native-gesture-handler';
-import { set } from 'react-native-reanimated';
+
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -312,7 +312,7 @@ const HomeScreen = ({ navigation }) => {
             renderItem={renderDiscountedDestinations}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            style={{ paddingLeft: 10, marginRight: 10 }}
+            style={{ paddingHorizontal: 10 }}
           />
         </View>
       </ScrollView>
@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     elevation: 5,
-    marginRight: 10,
+    marginRight: 20,
     marginBottom: 15,
     position: 'relative',
     backgroundColor: 'white',

@@ -23,6 +23,7 @@ import {} from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const { width, height } = Dimensions.get('window');
+
 export default function DrawerContent(props) {
   const authStatus = useSelector((state) => state.auth.authenticated);
   const dispatch = useDispatch();
@@ -31,14 +32,9 @@ export default function DrawerContent(props) {
   const DestinationIcon = <Fontisto name='earth' size={24} color='black' />;
   const ImagesIcon = <Ionicons name='images' size={25} color='black' />;
   const ListIcon = <Ionicons name='list-sharp' size={27} color='black' />;
-  const MessageIcon = (
-    <MaterialCommunityIcons name='email' size={27} color='black' />
-  );
+  const MessageIcon = <MaterialCommunityIcons name='email' size={27} color='black' />  
   const TryIcon = <Ionicons name='ios-help-circle' size={30} color='black' />;
-  const InfoIcon = (
-    <Ionicons name='information-circle' size={30} color='black' />
-  );
-
+  const InfoIcon = <Ionicons name='information-circle' size={30} color='black' />  
   const SettingIcon = <Ionicons name='settings' size={25} color='black' />;
   const LogoutIcon = <Ionicons name='log-out' size={30} color='black' />;
 

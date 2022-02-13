@@ -84,7 +84,6 @@ const TryStack = () => {
     </Stack.Navigator>
   );
 };
-
 const DrawerStack = () => {
   return (
     <Stack.Navigator>
