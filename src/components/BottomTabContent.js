@@ -1,3 +1,4 @@
+import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,22 +13,23 @@ import { Ionicons, AntDesign, FontAwesome } from '@expo/vector-icons';
 const { width, height } = Dimensions.get('window');
 
 export default function BottomTabContent(props) {
+
   const homeIcon = <Ionicons name='ios-home' size={23} color={color} />;
   const tripIcon = <AntDesign name='star' size={23} color={color} />;
-  const searchIcon = (
-    <Ionicons name='ios-search-sharp' size={33} color='white' />
-  );
+  const searchIcon =<Ionicons name='ios-search-sharp' size={33} color='white'/>
   const favoritesIcon = <Ionicons name='md-heart' size={23} color={color} />;
   const profileIcon = <FontAwesome name='user' size={23} color={color} />;
 
-  console.log('props.index', props.state.index);
-  console.log('props.', props);
+  const { item, onPress, accessibilityState } = props;
+  //const focused = accessibilityState.selected;
+  console.log('stateeee..', props);
+  const viewRef = useRef(null);
 
-  //console.log('props.isFocused', props.navigation);
+ 
 
-  const isFocused = props.navigation.isFocused(props.state.index);
-  console.log(isFocused);
-  const color = isFocused ? 'red' : 'purple';
+  // const isFocused = props.navigation.isFocused(props.state.index);
+  // console.log(isFocused);
+  const color = 'purple';
 
   const Tab = ({ onPress, pageName, icon }) => {
     return (

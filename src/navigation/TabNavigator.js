@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
 import { useNavigation } from '@react-navigation/native';
-import BottomTabContent from '../components/BottomTabContent';
 
 import { Ionicons, AntDesign, FontAwesome } from '@expo/vector-icons';
 
@@ -34,12 +33,94 @@ const Tab = createBottomTabNavigator();
 //Todo - Search icon not working good
 const BottomTabNavigator = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {}), [navigation];
   return (
     <SafeAreaView style={{ flex: 1, position: 'relative' }} edges={['bottom']}>
       <Tab.Navigator
-        initialRouteName='TripScreen'
-        tabBar={(props) =>  <BottomTabContent {...props}/>}
-     >
+        tabBarOptions={{
+          style: {
+            position: 'absolute',
+            height: 50,
+            justifyContent: 'space-around',
+            borderTopWidth: 2,
+            borderTopColor: 'black',
+          },
+        }}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            let iconName;
+            let color = focused ? 'black' : 'gray';
+            if (route.name === 'HomeScreen') {
+              iconName = 'ios-home';
+
+              return <Ionicons name={iconName} size={23} color={color} />;
+            } else if (route.name === 'TripScreen') {
+              iconName = 'star';
+
+              return <AntDesign name={iconName} size={24} color={color} />;
+            } else if (route.name === 'FavoritesScreen') {
+              iconName = 'md-heart';
+
+              return <Ionicons name={iconName} size={25} color={color} />;
+            } else if (route.name === 'ProfileScreen') {
+              iconName = 'user';
+
+              return <FontAwesome name={iconName} size={24} color={color} />;
+            } else if (route.name === 'SearchScreen') {
+              return (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('SearchScreen')}
+                  activeOpacity={0.9}
+                  style={{
+                    //alignSelf: 'baseline',
+                    position: 'relative',
+                    height: 50,
+                    width: 50,
+                    borderRadius: 50 / 2,
+                    top: -1,
+                    borderWidth: 3,
+                    borderColor: 'black',
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <View
+                    style={{
+                      height: 35,
+                      width: 35,
+                      borderRadius: 35 / 2,
+
+                      backgroundColor: 'black',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Ionicons name='ios-search-sharp' size={22} color='white' />
+                  </View>
+                </TouchableOpacity>
+              );
+            }
+          },
+
+          tabBarLabel: ({ focused }) => {
+            let titleStyle = {
+              fontSize: 12,
+              fontWeight: focused ? 'bold' : '500',
+              color: focused ? 'black' : 'gray',
+            };
+            if (route.name === 'HomeScreen') {
+              return <Text style={titleStyle}>Home</Text>;
+            } else if (route.name === 'TripScreen') {
+              return <Text style={titleStyle}>Trip</Text>;
+            } else if (route.name === 'FavoritesScreen') {
+              return <Text style={titleStyle}>Favorites</Text>;
+            } else if (route.name === 'ProfileScreen') {
+              return <Text style={titleStyle}>Profile</Text>;
+            } else if (route.name === 'SearchScreen') {
+              return;
+            }
+          },
+        })}>
         <Tab.Screen name='HomeScreen' component={HomeStack} />
         <Tab.Screen
           name='TripScreen'
