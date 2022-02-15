@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, Text, View, Button, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Button, Dimensions,TouchableOpacity } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { Octicons, FontAwesome5 } from '@expo/vector-icons';
@@ -37,10 +36,12 @@ export default function BottomSheetView(props) {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'stretch',
+        //position:'absolute',
         paddingVertical: 5,
         paddingHorizontal: 5,
-        backgroundColor: 'rgba(0,0,0,0.1)',
+        backgroundColor: 'rgba(237,237,237,0.9)',
         height: BswHeight,
+        //width:width,
       }}>
       <TouchableOpacity
         activeOpacity={0.8}
@@ -89,7 +90,7 @@ export default function BottomSheetView(props) {
     <>
       <BottomSheet
         ref={sheetRef}
-        snapPoints={[BswHeight, 80]}
+        snapPoints={[BswHeight, height*0.09]}
         initialSnap={1}
         borderRadius={status === true ? 10 : 0}
         renderContent={status === true ? renderOpenedBsw : renderClosedBsw}

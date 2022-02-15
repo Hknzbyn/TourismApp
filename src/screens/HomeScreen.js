@@ -190,7 +190,7 @@ const HomeScreen = ({ navigation }) => {
               {item.country}
             </Text>
             <Text style={styles.discountedDestinationCardText}>
-              last {Math.floor(Math.random() * 23) + 1} hours
+              last 24 hours
             </Text>
           </View>
 
@@ -225,7 +225,7 @@ const HomeScreen = ({ navigation }) => {
                 flexShrink: 1,
               }}>
               <Text> $</Text>
-              {(item.price * 90) / 100} /person
+              {(item.price -50) } /person
             </Text>
           </View>
         </View>
@@ -327,9 +327,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     //height: height,
-    width: width,
+    //width: width,
     //paddingBottom: 50,
   },
   text: {

@@ -1,4 +1,10 @@
-import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
+import React, {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useRef,
+  version,
+} from 'react';
 
 import {
   View,
@@ -9,10 +15,15 @@ import {
   CheckBox,
   Pressable,
   TouchableOpacity,
+  FlatList,
+  Image,
+  ImageBackground,
 } from 'react-native';
-const { width, height } = Dimensions.get('window');
-import { Ionicons } from '@expo/vector-icons';
+import moment from 'moment';
 
+import { useDispatch, useSelector } from 'react-redux';
+const { width, height } = Dimensions.get('window');
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import BottomSheetView from '../components/BottomSheetView';
 import Header from '../components/Header';
 import BgMaskedImage from '../components/BgMaskedImage';
@@ -20,9 +31,16 @@ import BgMaskedImage from '../components/BgMaskedImage';
 import SearchBar from '../components/SearchBar';
 
 export default function TripScreen({ navigation }) {
-  navigation.setOptions({ tabBarVisible: false });
+  const dispatch = useDispatch();
   const [bswStatus, setBswStatus] = useState(false);
-  useEffect(() => {}, [bswStatus]);
+  const tours = useSelector((state) => state.data.data);
+  const [tour, setTour] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    //console.log('tours', tours);
+    setTour(tours);
+  }, [bswStatus]);
 
   const TitleBsw = ({ title, clear }) => {
     return (
@@ -84,10 +102,141 @@ export default function TripScreen({ navigation }) {
           />
         </View>
 
-        <TouchableOpacity style={styles.applyBtn}>
-          <Text style={styles.applyBtnText}>APPLY FILTER</Text>
-        </TouchableOpacity>
+        <Pressable
+          onPress={() => {
+            Alert.alert('Apply');
+          }}
+          style={styles.applyBtn}>
+          <Text style={styles.applyBtnText}>APPLY FILTERR</Text>
+        </Pressable>
       </View>
+    );
+  };
+
+
+  const renderCardItem = ({ item, key }) => {
+    //find number of days
+    const diffDays = (fisrtDate, endDate) => {
+      const NewDate1 = moment(fisrtDate, 'DD-MM-YYYY');
+      const NewDate2 = moment(endDate, 'DD-MM-YYYY');
+      const diff = NewDate2.diff(NewDate1, 'days');
+      //console.log('diff', diff);
+      return diff;
+    };
+
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {}}
+        style={styles.card}>
+        <ImageBackground
+          resizeMode='cover'
+          borderRadius={10}
+          style={styles.cardImage}
+          source={{ uri: item.tourImage }}>
+          <View style={styles.cardImage}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                Alert.alert('Saved', item.tourId);
+              }}
+              style={{
+                height: 50,
+                width: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                //backgroundColor: 'blue',
+                marginTop: 10,
+                marginRight: 10,
+              }}>
+              {isLiked ? (
+                <Ionicons name='heart' size={30} color='red' />
+              ) : (
+                <Ionicons name='heart-outline' size={30} color='red' />
+              )}
+            </TouchableOpacity>
+            <View
+              style={{
+                height: height * 0.06,
+                width: width * 0.95,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingLeft: 10,
+                //backgroundColor: 'red',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  justifyContent: 'space-around',
+                }}>
+                <Text style={styles.cardTitle}>
+                  {item.tourLocation} Lorem Ipsum Dolor Sit
+                </Text>
+                <Text style={styles.cardTitle}>Tour Package</Text>
+              </View>
+              <View
+                style={{
+                  height: height * 0.04,
+                  width: width * 0.33,
+                  borderBottomLeftRadius: 5,
+                  borderTopLeftRadius: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: 'rgba(14,182,33, 1.0)',
+                }}>
+                <Text
+                  numberOfLines={1}
+                  style={{ color: 'white', textAlign: 'left' }}>
+                  {diffDays(item.tourDateStart, item.tourDateEnd)} Days &{' '}
+                  {diffDays(item.tourDateStart, item.tourDateEnd) + 1} Nights
+                </Text>
+              </View>
+            </View>
+          </View>
+        </ImageBackground>
+        <View style={styles.CardTextArea}>
+          <Text style={{ color: 'rgba(14,182,33, 1.0)', fontWeight: '700' }}>
+            {' '}
+            Starting From{' '}
+          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ fontSize: 20, fontWeight: '700', color: 'black' }}>
+              <Text>$</Text>
+              {item.price}
+            </Text>
+            <Text style={{ color: 'rgba(45, 48, 44, 0.4)', fontWeight: '700' }}>
+              {'  '}
+              per Person on twin sharing
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            //backgroundColor: 'blue',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              height: height * 0.08,
+              width: width * 0.35 + 10,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              paddingLeft: 10,
+              //backgroundColor: 'purple',
+            }}>
+            <Text numberOfLines={1} style={styles.cardText}>
+              {item.startingLocation}{' '}
+              <AntDesign name='arrowright' size={20} color='black' />
+              <Text style={styles.cardText}> {item.tourLocation} </Text>
+            </Text>
+          </View>
+          <View style={{justifyContent:'center', alignItems:'center'}} >
+            
+          </View>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -105,9 +254,29 @@ export default function TripScreen({ navigation }) {
         leftIconOnPress={() => navigation.navigate('HomeScreen')}
         leftIcon={<Ionicons name='arrow-back-sharp' size={26} color='white' />}
       />
+      <View style={styles.searchArea}>
+        <SearchBar
+          placeholder='Themes & Catogories'
+          //onChangeText={(text) => searchFilterFunction(text)}
+          //value={search}
+          //cleanVal={() => setSearch('')}
+        />
+      </View>
 
-      <Text style={styles.text}>{bswStatus ? 'true' : 'false'}</Text>
-      <Text> </Text>
+      <View
+        style={{
+          width: width,
+          height: height * 0.7,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <FlatList
+          data={tours}
+          keyExtractor={(item) => item.tourId}
+          renderItem={renderCardItem}
+          style={{ paddingVertical: 5 }}
+        />
+      </View>
 
       <BottomSheetView
         BswHeight={height * 0.92}
@@ -165,16 +334,19 @@ const styles = StyleSheet.create({
   bswBudgetArea: {
     height: height * 0.35,
     width: width,
+    backgroundColor: 'white',
     //backgroundColor: 'yellow',
   },
   bswDurationArea: {
     height: height * 0.2,
     width: width,
+    backgroundColor: 'white',
     //backgroundColor: 'green',
   },
   bswActivityArea: {
     height: height * 0.2,
     width: width,
+    backgroundColor: 'white',
     //backgroundColor: 'blue',
   },
   applyBtn: {
@@ -182,15 +354,14 @@ const styles = StyleSheet.create({
     height: height * 0.07,
     width: width * 0.85,
     borderRadius: 5,
-    justifyContent:'center',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(17,182,25, 1)',
   },
-  applyBtnText:{
-    color:'white',
+  applyBtnText: {
+    color: 'white',
     fontSize: 12,
     fontWeight: 'bold',
-
   },
   TittleBsw: {
     height: height * 0.02,
@@ -203,7 +374,7 @@ const styles = StyleSheet.create({
   TitleArea: {
     height: height * 0.06,
     width: width,
-    elevation: .5,
+    elevation: 0.5,
     flexDirection: 'row',
     backgroundColor: 'rgba(220,220,220,0.5)',
     justifyContent: 'space-between',
@@ -214,5 +385,55 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: 'black',
+  },
+  card: {
+    height: height * 0.35,
+    width: width * 0.95,
+    flexDirection: 'column',
+    elevation: 5,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginVertical: 10,
+  },
+  cardImage: {
+    height: height * 0.2,
+    width: width * 0.95,
+    borderRadius: 5,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    backgroundColor: 'rgba(17,17,17,0.3)',
+  },
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  CardTextArea: {
+    height: height * 0.07,
+    width: width * 0.95,
+    flexDirection: 'column',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+    //backgroundColor: 'red',
+  },
+  cardText: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
+  searchArea: {
+    height: height * 0.1,
+    width: width,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    //backgroundColor: 'red',
   },
 });

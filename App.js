@@ -38,7 +38,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import * as Font from 'expo-font';
 
-
 export default function App() {
   useEffect(() => {
     Font.loadAsync({
@@ -50,7 +49,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar backgroundColor='black' style='light' />
+        <StatusBar style='auto' />
         <AppWrapper />
       </SafeAreaView>
     </Provider>
