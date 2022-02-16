@@ -23,7 +23,14 @@ import moment from 'moment';
 
 import { useDispatch, useSelector } from 'react-redux';
 const { width, height } = Dimensions.get('window');
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import {
+  Ionicons,
+  AntDesign,
+  FontAwesome,
+  Entypo,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import BottomSheetView from '../components/BottomSheetView';
 import Header from '../components/Header';
 import BgMaskedImage from '../components/BgMaskedImage';
@@ -31,6 +38,26 @@ import BgMaskedImage from '../components/BgMaskedImage';
 import SearchBar from '../components/SearchBar';
 
 export default function TripScreen({ navigation }) {
+  const carIcon = <FontAwesome name='car' size={24} color='gray' />;
+  const planeIcon = <FontAwesome name='plane' size={24} color='gray' />;
+  const bedIcon = <FontAwesome name='bed' size={24} color='gray' />;
+  const hotelIcon = <FontAwesome name='hotel' size={24} color='gray' />;
+  const foodIcon = <FontAwesome name='cutlery' size={24} color='gray' />;
+  const guideIcon = <Entypo name='info-with-circle' size={24} color='gray' />;
+  const lunchIcon = (
+    <MaterialIcons name='lunch-dining' size={24} color='gray' />
+  );
+  const breakfastIcon = (
+    <MaterialIcons name='free-breakfast' size={24} color='gray' />
+  );
+  const taxesIcon = (
+    <MaterialCommunityIcons name='cash-usd' size={24} color='gray' />
+  );
+  const likedIcon = <Ionicons name='heart' size={30} color='red' />;
+  const likedIcon_outline = (
+    <Ionicons name='heart-outline' size={30} color='red' />
+  );
+
   const dispatch = useDispatch();
   const [bswStatus, setBswStatus] = useState(false);
   const tours = useSelector((state) => state.data.data);
@@ -113,8 +140,127 @@ export default function TripScreen({ navigation }) {
     );
   };
 
-
   const renderCardItem = ({ item, key }) => {
+   
+
+    const GetIcons = (detail) => {
+      const tourDetails = detail;
+     
+      //console.log('data', data)
+      
+      const countType = (type) => {
+        let data = [tourDetails];
+        const countTourGuide = data.filter((obj) => obj.tourGuide === type);
+        const countBreakfast = data.filter((obj) => obj.breakfast === type);
+        const countLunch = data.filter((obj) => obj.lunch === type);
+        const countDinner = data.filter((obj) => obj.dinner === type);
+        const countAccommodation = data.filter((obj) => obj.accommodation === type);
+        const countTransport = data.filter((obj) => obj.transport === type);
+        const countAirportTaxes = data.filter((obj) => obj.airportTaxes === type);
+        
+        return (countTourGuide.length + countBreakfast.length + countLunch.length + countDinner.length + countAccommodation.length + countTransport.length + countAirportTaxes.length)
+
+      };
+      
+     
+      const Tab = ({ icon }) => {
+        return (
+          <View
+            style={{
+              height: height * 0.05,
+              width: height * 0.05,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginHorizontal: 2,
+              backgroundColor: 'yellow',
+            }}>
+            {icon}
+          </View>
+        );
+      };
+     
+     
+      if(countType(true) <3 ){
+        return(
+  
+          <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+           backgroundColor:'blue',
+           
+         }}>
+            <Tab />
+            <Tab />
+            <Tab />
+            <Tab />
+            <Tab />
+           </View>
+        )
+      }else if(countType(true) <3){
+        return(
+
+          <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            backgroundColor:'blue',
+            
+          }}>
+            <Tab />
+            <Tab />
+            <Tab />
+         
+         </View>
+         )
+      }
+                
+              
+      //    return(
+
+      //      <View
+      //      style={{
+      //        flexDirection: 'row',
+      //        justifyContent: 'flex-end',
+      //        alignItems: 'center',
+      //       backgroundColor:'blue',
+            
+      //     }}>
+      //       <Tab />
+      //       <Tab />
+      //       <Tab />
+      //       <Tab />
+      //       <Tab >
+      //       <Text style={{color:'white', fontSize:25}}> {countType(true)} </Text>
+      //         </Tab>
+      //       {/* <Text style={{color:'white', fontSize:25}}> {countType(true)} </Text> */}
+
+      //     {/* {tourDetails.transport === true ? <Tab icon={planeIcon} /> : null}
+      //     {tourDetails.airportTaxes === true ? <Tab icon={taxesIcon} /> : null}
+      //     {tourDetails.accommodation === true ? <Tab icon={bedIcon} /> : null}
+      //     {tourDetails.tourGuide === true ? <Tab icon={guideIcon} /> : null}
+      //     {tourDetails.breakfast === true ? <Tab icon={breakfastIcon} /> : null}
+      //     {tourDetails.lunch === true ? <Tab icon={lunchIcon} /> : null}
+      //     {tourDetails.dinner === true ? <Tab icon={foodIcon} /> : null} */}
+      //   </View>
+      
+      // )
+    };
+
+    const GetPrice = (discounted, price) => {
+      const discountedStatus = discounted;
+      const Finalprice = price;
+      if (discountedStatus === true) {
+        //console.log('discountedStatus == true');
+        return Finalprice - 50;
+      } else {
+        //console.log('discountedStatus == false');
+        return Finalprice;
+      }
+    };
+
     //find number of days
     const diffDays = (fisrtDate, endDate) => {
       const NewDate1 = moment(fisrtDate, 'DD-MM-YYYY');
@@ -149,11 +295,7 @@ export default function TripScreen({ navigation }) {
                 marginTop: 10,
                 marginRight: 10,
               }}>
-              {isLiked ? (
-                <Ionicons name='heart' size={30} color='red' />
-              ) : (
-                <Ionicons name='heart-outline' size={30} color='red' />
-              )}
+              {isLiked ? likedIcon : likedIcon_outline}
             </TouchableOpacity>
             <View
               style={{
@@ -203,7 +345,7 @@ export default function TripScreen({ navigation }) {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={{ fontSize: 20, fontWeight: '700', color: 'black' }}>
               <Text>$</Text>
-              {item.price}
+              {GetPrice(item.tourDetail.specialOffers, item.price)}
             </Text>
             <Text style={{ color: 'rgba(45, 48, 44, 0.4)', fontWeight: '700' }}>
               {'  '}
@@ -214,17 +356,20 @@ export default function TripScreen({ navigation }) {
         <View
           style={{
             flexDirection: 'row',
-            //backgroundColor: 'blue',
+            height: height * 0.08,
+            width: width * 0.95,
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
           <View
             style={{
               flexDirection: 'row',
               height: height * 0.08,
-              width: width * 0.35 + 10,
+              width: width * 0.4,
               justifyContent: 'flex-start',
               alignItems: 'center',
               paddingLeft: 10,
-              //backgroundColor: 'purple',
+              backgroundColor: 'purple',
             }}>
             <Text numberOfLines={1} style={styles.cardText}>
               {item.startingLocation}{' '}
@@ -232,8 +377,15 @@ export default function TripScreen({ navigation }) {
               <Text style={styles.cardText}> {item.tourLocation} </Text>
             </Text>
           </View>
-          <View style={{justifyContent:'center', alignItems:'center'}} >
-            
+          <View
+            style={{
+              height: height * 0.08,
+              width: width * 0.55,
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+              backgroundColor: 'green',
+            }}>
+            {GetIcons(item.tourDetail)}
           </View>
         </View>
       </TouchableOpacity>

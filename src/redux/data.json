@@ -49,7 +49,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Switzerland Tours",
@@ -79,7 +79,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Italy Tours",
@@ -109,7 +109,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "France Tours",
@@ -139,7 +139,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Thai Tours",
@@ -169,7 +169,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Greece Tours",
@@ -199,7 +199,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Euro Tours",
@@ -229,7 +229,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Euro Tours",
@@ -259,7 +259,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Anatolian Tours",
@@ -289,7 +289,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "America Tours",
@@ -319,7 +319,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "America Tours",
@@ -349,7 +349,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Euro Tours",
@@ -379,7 +379,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Euro Tours",
@@ -409,7 +409,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "Anatolian Tours",
@@ -439,7 +439,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Israel Tours",
@@ -469,7 +469,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Saudi Arabia Tours",
@@ -499,7 +499,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Egypt Tours",
@@ -529,7 +529,7 @@
       "dinner": true,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "America Tours",
@@ -559,7 +559,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": true
+      "airportTaxes": true
     },
     "tourCompany": {
       "companyName": "Europe Tours",
@@ -589,7 +589,7 @@
       "dinner": false,
       "accommodation": true,
       "transport": true,
-      "airport taxes": false
+      "airportTaxes": false
     },
     "tourCompany": {
       "companyName": "America Tours",
