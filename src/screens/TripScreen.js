@@ -18,6 +18,7 @@ import {
   FlatList,
   Image,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import moment from 'moment';
 
@@ -36,6 +37,7 @@ import Header from '../components/Header';
 import BgMaskedImage from '../components/BgMaskedImage';
 
 import SearchBar from '../components/SearchBar';
+import SortByModal from '../components/SortByModal';
 
 export default function TripScreen({ navigation }) {
   const carIcon = <FontAwesome name='car' size={24} color='gray' />;
@@ -63,11 +65,54 @@ export default function TripScreen({ navigation }) {
   const tours = useSelector((state) => state.data.data);
   const [tour, setTour] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false);
+
+  const [sortNoOfTrip, setSortNoOfTrip] = useState(false);
+  const [sortAscending, setSortAscending] = useState(false);
+  const [sortDescending, setSortDescending] = useState(false);
+  const [sortRelevance, setSortRelevance] = useState(false);
 
   useEffect(() => {
-    //console.log('tours', tours);
-    setTour(tours);
-  }, [bswStatus]);
+    //const tours;
+    if (sortNoOfTrip === true) {
+      setSortAscending(false);
+      setSortDescending(false);
+      setSortRelevance(false);
+      setTour(tours);
+    } else if (sortAscending === true) {
+      setSortNoOfTrip(false);
+      setSortDescending(false);
+      setSortRelevance(false);
+      const ascending = tours.sort((a, b) => Number(a.price) - Number(b.price));
+      setTour(ascending);
+      //console.log('ascending', ascending);
+    } else if (sortDescending === true) {
+      setSortNoOfTrip(false);
+      setSortAscending(false);
+      setSortRelevance(false);
+      const descending = tours.sort((a, b) => Number(b.price) - Number(a.price));
+      setTour(descending);
+      //console.log('descending', descending);
+    } else if (sortRelevance === true) {
+      setSortNoOfTrip(false);
+      setSortAscending(false);
+      setSortDescending(false);
+      const reversed = tours.reverse();
+      setTour(reversed);
+      //console.log('reversed:', reversed);
+    } else{
+      setTour(tours);
+    }
+      
+  }, [
+    bswStatus,
+    modalStatus,
+    sortNoOfTrip,
+    sortAscending,
+    sortDescending,
+    sortRelevance,
+  ]);
+
 
   const TitleBsw = ({ title, clear }) => {
     return (
@@ -141,28 +186,36 @@ export default function TripScreen({ navigation }) {
   };
 
   const renderCardItem = ({ item, key }) => {
-   
-
+    //Function that brings icons according to tour detail status
     const GetIcons = (detail) => {
       const tourDetails = detail;
-     
-      //console.log('data', data)
-      
+
+      //Function that finds how many of the tour detail elements are true
       const countType = (type) => {
         let data = [tourDetails];
         const countTourGuide = data.filter((obj) => obj.tourGuide === type);
         const countBreakfast = data.filter((obj) => obj.breakfast === type);
         const countLunch = data.filter((obj) => obj.lunch === type);
         const countDinner = data.filter((obj) => obj.dinner === type);
-        const countAccommodation = data.filter((obj) => obj.accommodation === type);
+        const countAccommodation = data.filter(
+          (obj) => obj.accommodation === type
+        );
         const countTransport = data.filter((obj) => obj.transport === type);
-        const countAirportTaxes = data.filter((obj) => obj.airportTaxes === type);
-        
-        return (countTourGuide.length + countBreakfast.length + countLunch.length + countDinner.length + countAccommodation.length + countTransport.length + countAirportTaxes.length)
+        const countAirportTaxes = data.filter(
+          (obj) => obj.airportTaxes === type
+        );
 
+        return (
+          countTourGuide.length +
+          countBreakfast.length +
+          countLunch.length +
+          countDinner.length +
+          countAccommodation.length +
+          countTransport.length +
+          countAirportTaxes.length
+        );
       };
-      
-     
+
       const Tab = ({ icon }) => {
         return (
           <View
@@ -171,82 +224,40 @@ export default function TripScreen({ navigation }) {
               width: height * 0.05,
               justifyContent: 'center',
               alignItems: 'center',
-              marginHorizontal: 2,
-              backgroundColor: 'yellow',
+              marginHorizontal: 1,
+              //backgroundColor: 'red',
             }}>
             {icon}
           </View>
         );
       };
-     
-     
-      if(countType(true) <3 ){
-        return(
-  
-          <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-           backgroundColor:'blue',
-           
-         }}>
-            <Tab />
-            <Tab />
-            <Tab />
-            <Tab />
-            <Tab />
-           </View>
-        )
-      }else if(countType(true) <3){
-        return(
 
-          <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
+      return countType(true) <= 5 ? (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          {tourDetails.transport === true ? <Tab icon={planeIcon} /> : null}
+          {tourDetails.accommodation === true ? <Tab icon={bedIcon} /> : null}
+          {tourDetails.breakfast === true ? <Tab icon={breakfastIcon} /> : null}
+          {tourDetails.lunch === true ? <Tab icon={lunchIcon} /> : null}
+          {tourDetails.dinner === true ? <Tab icon={foodIcon} /> : null}
+          {tourDetails.tourGuide === true ? <Tab icon={guideIcon} /> : null}
+          {tourDetails.airportTaxes === true ? <Tab icon={taxesIcon} /> : null}
+        </View>
+      ) : (
+        <ScrollView
+          horizontal
+          contentContainerStyle={{
+            justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor:'blue',
-            
           }}>
-            <Tab />
-            <Tab />
-            <Tab />
-         
-         </View>
-         )
-      }
-                
-              
-      //    return(
-
-      //      <View
-      //      style={{
-      //        flexDirection: 'row',
-      //        justifyContent: 'flex-end',
-      //        alignItems: 'center',
-      //       backgroundColor:'blue',
-            
-      //     }}>
-      //       <Tab />
-      //       <Tab />
-      //       <Tab />
-      //       <Tab />
-      //       <Tab >
-      //       <Text style={{color:'white', fontSize:25}}> {countType(true)} </Text>
-      //         </Tab>
-      //       {/* <Text style={{color:'white', fontSize:25}}> {countType(true)} </Text> */}
-
-      //     {/* {tourDetails.transport === true ? <Tab icon={planeIcon} /> : null}
-      //     {tourDetails.airportTaxes === true ? <Tab icon={taxesIcon} /> : null}
-      //     {tourDetails.accommodation === true ? <Tab icon={bedIcon} /> : null}
-      //     {tourDetails.tourGuide === true ? <Tab icon={guideIcon} /> : null}
-      //     {tourDetails.breakfast === true ? <Tab icon={breakfastIcon} /> : null}
-      //     {tourDetails.lunch === true ? <Tab icon={lunchIcon} /> : null}
-      //     {tourDetails.dinner === true ? <Tab icon={foodIcon} /> : null} */}
-      //   </View>
-      
-      // )
+          {tourDetails.transport === true ? <Tab icon={planeIcon} /> : null}
+          {tourDetails.accommodation === true ? <Tab icon={bedIcon} /> : null}
+          {tourDetails.breakfast === true ? <Tab icon={breakfastIcon} /> : null}
+          {tourDetails.lunch === true ? <Tab icon={lunchIcon} /> : null}
+          {tourDetails.dinner === true ? <Tab icon={foodIcon} /> : null}
+          {tourDetails.tourGuide === true ? <Tab icon={guideIcon} /> : null}
+          {tourDetails.airportTaxes === true ? <Tab icon={taxesIcon} /> : null}
+        </ScrollView>
+      );
     };
 
     const GetPrice = (discounted, price) => {
@@ -369,7 +380,7 @@ export default function TripScreen({ navigation }) {
               justifyContent: 'flex-start',
               alignItems: 'center',
               paddingLeft: 10,
-              backgroundColor: 'purple',
+              //backgroundColor: 'purple',
             }}>
             <Text numberOfLines={1} style={styles.cardText}>
               {item.startingLocation}{' '}
@@ -380,10 +391,10 @@ export default function TripScreen({ navigation }) {
           <View
             style={{
               height: height * 0.08,
-              width: width * 0.55,
+              width: width * 0.5,
               justifyContent: 'center',
               alignItems: 'flex-end',
-              backgroundColor: 'green',
+              //backgroundColor: 'green',
             }}>
             {GetIcons(item.tourDetail)}
           </View>
@@ -427,6 +438,7 @@ export default function TripScreen({ navigation }) {
           keyExtractor={(item) => item.tourId}
           renderItem={renderCardItem}
           style={{ paddingVertical: 5 }}
+          initialNumToRender={5}
         />
       </View>
 
@@ -434,10 +446,23 @@ export default function TripScreen({ navigation }) {
         BswHeight={height * 0.92}
         status={bswStatus}
         onClose={() => setBswStatus(false)}
-        onPressSortBy={() => Alert.alert('sortByModal')}
+        onPressSortBy={() => setModalStatus(true)}
         onPressFilter={() => setBswStatus(true)}>
         {openedBsw()}
       </BottomSheetView>
+      <SortByModal
+        modalVisible={modalStatus}
+        closeModal={() => setModalStatus(false)}
+        onOpen={() => setModalStatus(true)}
+        NoTripValue={sortNoOfTrip}
+        changeNoTripValue={() => setSortNoOfTrip(!sortNoOfTrip)}
+        AscendingValue={sortAscending}
+        changeAscendingValue={() => {setSortAscending(!sortAscending)}}
+        DescendingValue={sortDescending}
+        changeDescendingValue={() => setSortDescending(!sortDescending)}
+        RelevanceValue={sortRelevance}
+        changeRelavenceValue={() => setSortRelevance(!sortRelevance)}
+      />
     </View>
   );
 }

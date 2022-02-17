@@ -20,6 +20,7 @@
     "axios": "^0.24.0",
     "expo": "^44.0.5",
     "expo-blur": "~11.0.0",
+    "expo-checkbox": "~2.0.0",
     "expo-font": "~10.0.4",
     "expo-status-bar": "~1.2.0",
     "firebase": "^9.6.6",
