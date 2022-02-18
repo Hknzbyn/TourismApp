@@ -90,7 +90,9 @@ export default function TripScreen({ navigation }) {
       setSortNoOfTrip(false);
       setSortAscending(false);
       setSortRelevance(false);
-      const descending = tours.sort((a, b) => Number(b.price) - Number(a.price));
+      const descending = tours.sort(
+        (a, b) => Number(b.price) - Number(a.price)
+      );
       setTour(descending);
       //console.log('descending', descending);
     } else if (sortRelevance === true) {
@@ -100,10 +102,9 @@ export default function TripScreen({ navigation }) {
       const reversed = tours.reverse();
       setTour(reversed);
       //console.log('reversed:', reversed);
-    } else{
+    } else {
       setTour(tours);
     }
-      
   }, [
     bswStatus,
     modalStatus,
@@ -112,7 +113,6 @@ export default function TripScreen({ navigation }) {
     sortDescending,
     sortRelevance,
   ]);
-
 
   const TitleBsw = ({ title, clear }) => {
     return (
@@ -429,9 +429,11 @@ export default function TripScreen({ navigation }) {
       <View
         style={{
           width: width,
-          height: height * 0.7,
-          justifyContent: 'center',
+          height: height * 0.85-50,
+          justifyContent: 'flex-start',
           alignItems: 'center',
+          backgroundColor: 'gray',
+          //paddingBottom: 50,
         }}>
         <FlatList
           data={tours}
@@ -457,7 +459,9 @@ export default function TripScreen({ navigation }) {
         NoTripValue={sortNoOfTrip}
         changeNoTripValue={() => setSortNoOfTrip(!sortNoOfTrip)}
         AscendingValue={sortAscending}
-        changeAscendingValue={() => {setSortAscending(!sortAscending)}}
+        changeAscendingValue={() => {
+          setSortAscending(!sortAscending);
+        }}
         DescendingValue={sortDescending}
         changeDescendingValue={() => setSortDescending(!sortDescending)}
         RelevanceValue={sortRelevance}

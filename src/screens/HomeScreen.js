@@ -325,12 +325,11 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: height,
+    width: width,
     backgroundColor: '#fff',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    //height: height,
-    //width: width,
-    //paddingBottom: 50,
   },
   text: {
     fontSize: 18,

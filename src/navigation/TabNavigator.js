@@ -75,28 +75,16 @@ const BottomTabNavigator = () => {
                   style={{
                     //alignSelf: 'baseline',
                     position: 'relative',
-                    height: 50,
-                    width: 50,
-                    borderRadius: 50 / 2,
-                    top: -1,
+                    height: 45,
+                    width: 45,
+                    borderRadius: 45 / 2,
                     borderWidth: 3,
                     borderColor: 'black',
-                    backgroundColor: 'white',
+                    backgroundColor: 'black',
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <View
-                    style={{
-                      height: 35,
-                      width: 35,
-                      borderRadius: 35 / 2,
-
-                      backgroundColor: 'black',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Ionicons name='ios-search-sharp' size={22} color='white' />
-                  </View>
+                  <Ionicons name='ios-search-sharp' size={25} color='white' />
                 </TouchableOpacity>
               );
             }
@@ -137,7 +125,17 @@ const BottomTabNavigator = () => {
         />
         <Tab.Screen name='SearchScreen' component={SearchStack} />
         <Tab.Screen name='FavoritesScreen' component={FavoritesStack} />
-        <Tab.Screen name='ProfileScreen' component={ProfileStack} />
+        <Tab.Screen name='ProfileScreen' component={ProfileStack} 
+         options={({ route }) => ({
+          tabBarVisible: ((route) => {
+            if (route.name === 'ProfileScreen') {
+              return false;
+            }
+
+            return true;
+          })(route),
+        })}
+        />
       </Tab.Navigator>
     </SafeAreaView>
   );
