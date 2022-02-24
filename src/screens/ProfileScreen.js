@@ -11,10 +11,12 @@ import {
   ImageBackground,
 } from 'react-native';
 import BgMaskedImage from '../components/BgMaskedImage';
+import { List } from 'react-native-paper';
 
 import Header from '../components/Header';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
+import { TextInput } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,6 +27,9 @@ export default function ProfileScreen({ navigation }) {
   const [pressedFollowing, setPressedFollowing] = useState(false);
   const [pressedTry, setPressedTry] = useState(false);
   const [pressedEdit, setPressedEdit] = useState(false);
+  const [expanded, setExpanded] = React.useState(true);
+
+  const handlePress = () => setExpanded(!expanded);
 
   const Trips = () => {
     return (
@@ -44,16 +49,10 @@ export default function ProfileScreen({ navigation }) {
           style={{
             width: width,
             height: height * 0.63,
-            justifyContent:'flex-start',
+            justifyContent: 'flex-start',
             alignItems: 'center',
             //backgroundColor: 'red',
-            
-         
-          }}>
-
-            
-
-          </View>
+          }}></View>
       </View>
     );
   };
@@ -69,7 +68,54 @@ export default function ProfileScreen({ navigation }) {
   const Edit = () => {
     return (
       <View style={styles.BottomActiveArea}>
-        <Text>Edit</Text>
+        <List.Section
+          title='Settings'
+          style={{
+            height: 200,
+            width: width * 0.95,
+          }}>
+          <List.Accordion title='Change Password'>
+            <View
+              style={{
+                height: 225,
+                width: width * 0.9,
+                //backgroundColor: 'red',
+                marginHorizontal: 10,
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder='Password'
+                placeholderTextColor='#979797'
+                secureTextEntry={true}
+              />
+
+              <TextInput
+                style={styles.passwordInput}
+                placeholder='New Password'
+                placeholderTextColor='#979797'
+                secureTextEntry={true}
+              />
+
+              <TextInput
+                style={styles.passwordInput}
+                placeholder='Confirm Password'
+                placeholderTextColor='#979797'
+                secureTextEntry={true}
+              />
+            </View>
+          </List.Accordion>
+
+          <List.Accordion
+            title='Notifications'
+            expanded={expanded}
+            onPress={handlePress}>
+            <List.Item title='Lorem Ipsum 1' />
+            <List.Item title='Lorem Ipsum 2' />
+          </List.Accordion>
+        </List.Section>
       </View>
     );
   };
@@ -178,11 +224,9 @@ export default function ProfileScreen({ navigation }) {
               <Text style={styles.userNameText}>User Name</Text>
               <Text style={styles.userLocationText}>Location</Text>
               <Pressable
-                onPress={() =>
-                  Alert.alert('Edit Profile // Follow // unfollow')
-                }
+                onPress={() => togglePressed('pressedEdit')}
                 style={styles.followButton}>
-                <Text style={styles.followButtonText}>Follow</Text>
+                <Text style={styles.followButtonText}>Edit Profile</Text>
               </Pressable>
             </View>
           </View>
@@ -317,4 +361,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+  passwordInput:{
+    height: 50,
+    width: 300,
+    borderRadius: 1,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 10,
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+  }
 });
